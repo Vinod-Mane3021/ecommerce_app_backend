@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DB_NAME } from "../constants/constants";
+import { DB_NAME } from "../constants";
 
 /**
  * Connecting to the MongoDB database using Mongoose.

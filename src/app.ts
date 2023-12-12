@@ -1,5 +1,5 @@
 import express from 'express';
-import { REQUEST_DATA_LIMIT } from './constants/constants';
+import { REQUEST_DATA_LIMIT } from './constants';
 
 const app = express();
 

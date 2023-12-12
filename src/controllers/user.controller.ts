@@ -14,7 +14,6 @@ const register = asyncHandler(
       return new ApiResponse(HttpStatusCode.BAD_REQUEST, "FAILED", "All felids are required").sendResponse(res)
     }
 
-
     const createdUser = await createUser({
       firstName: firstName,
       lastName: lastName,

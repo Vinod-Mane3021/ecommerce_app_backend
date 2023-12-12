@@ -1,26 +1,31 @@
 import mongoose, { Schema } from "mongoose";
 
+import { UserRoles, EmailProvider } from '../constants/enums'
+
 // Declare the Schema of the Mongo model
 var userSchema = new Schema(
     {
         firstName: { type: String, require: true },
         lastName: { type: String, require: true },
-        email:{ type:String, required:true, unique:true, },
-
-
-        
+        email:{ type:String, required:true, unique:true, },        
         mobileNumber:{ type:String, required:true, unique:true, },
         password:{ type:String, required:true, },
-
-        role: { type: String, default: "user" },
-        isBlocked: { type: Boolean, default: false },
-        cart: { type: Array, default: [] },
+        avatar: { type: String },
         address: { type: String },
-        wishlist: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+        
+        provider: { type: String, require: true, default: EmailProvider.Email },
+        googleId: { type: String },
+        facebookId: { type: String },
+        role: { 
+            type: String, 
+            enum: [UserRoles.Member, UserRoles.Merchant, UserRoles.Admin],
+            default: UserRoles.Member,
+        },
+        merchant: { type: Schema.Types.ObjectId, ref: "Merchant", default: null, },
+        
         refreshToken: { type: String },
-        passwordChangedAt: Date,
-        passwordResetToken: String,
-        passwordResetExpires: Date
+        passwordResetToken: { type: String },
+        passwordResetExpires: { type: Date },
     },
     {
         timestamps: true
