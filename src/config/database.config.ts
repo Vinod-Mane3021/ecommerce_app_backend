@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { DB_NAME } from "../constants";
 import { Keys } from "./keys";
 
 /**
@@ -10,7 +9,7 @@ import { Keys } from "./keys";
 const connectDB = async () => {
     try {
         // Attempt to connect to the database using Mongoose.
-        const response = await mongoose.connect(`${Keys.database.url}/${DB_NAME}`)
+        const response = await mongoose.connect(`${Keys.database.url}/${Keys.database.name}`)
         if (response.connection.readyState === 1) {
             console.log(`✔️  MongoDB connected successfully | DB_NAME: ${response.connection.name} | HOST: ${response.connection.host} | MONGODB_URL: ${Keys.database.url}`);
         }
