@@ -1,11 +1,11 @@
 export const Keys = {
     port: process.env.PORT || 3000,
     database: {
+        uri: process.env.MONGODB_URI,
         name : process.env.MONGODB_NAME,
-        url: process.env.MONGODB_URI,
     },
     jwt: {
         secret: process.env.JWT_SECRET,
-        tokenLife: '7d'
+        tokenLife: process.env.TOKEN_EXPIRY
     },
 };

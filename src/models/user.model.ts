@@ -45,6 +45,7 @@ var userSchema = new Schema<IUser>(
     token: { type: String },
     passwordResetToken: { type: String },
     passwordResetExpires: { type: Date },
+    // cart: [  ]
   },
   {
     timestamps: true,
@@ -105,7 +106,7 @@ userSchema.methods.generateToken = async function(payload: Object) {
       payload, 
       Keys.jwt.secret, 
       {//Keys.jwt.tokenLife
-        expiresIn: '2s'
+        expiresIn: '7d'
       }) 
     return token;
   } catch (error) {

@@ -8,6 +8,10 @@ const findUserByEmail = (email: string) => {
     return UserModel.findOne({email})
 }
 
+const findUserById = (id: string) => {
+    return UserModel.findById(id)
+}
+
 const findUserByEmailOrMobileNumber = (email: string, mobileNumber: string) => {
     return UserModel.findOne({
         $or: [
@@ -17,7 +21,7 @@ const findUserByEmailOrMobileNumber = (email: string, mobileNumber: string) => {
     })
 }
 
-export { createUser, findUserByEmail, findUserByEmailOrMobileNumber }
+export { createUser, findUserByEmail, findUserByEmailOrMobileNumber, findUserById }
 
 
 

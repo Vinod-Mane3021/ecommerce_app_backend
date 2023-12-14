@@ -55,6 +55,8 @@ const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const {email, mobileNumber, password} = req.body;
 
+    console.log("email :", email)
+
     if((!email || !password) && (!mobileNumber || !password)) {
       return new ApiResponse(
         HttpStatusCode.BAD_REQUEST,
@@ -126,7 +128,6 @@ const login = asyncHandler(
     ).sendResponse(res);
 
 });
-
 
 
 

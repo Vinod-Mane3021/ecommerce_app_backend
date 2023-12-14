@@ -11,15 +11,20 @@ interface IProduct extends Document {
     brand: string,
 }
 
-const productSchema = new Schema<IProduct>({
-    product_url: String,
-    product_name: String,
-    product_category_tree: [{ type: String }],
-    retail_price: Number,
-    discounted_price: Number,
-    image: [{ type: String }],
-    description: String,
-    brand: String
-})
+const productSchema = new Schema(
+    {
+        product_url: String,
+        product_name: String,
+        product_category_tree: [{ type: String }],
+        retail_price: Number,
+        discounted_price: Number,
+        image: [{ type: String }],
+        description: String,
+        brand: String
+    },
+    {
+        timestamps: true
+    }
+)
 
 export const ProductModel = mongoose.model<IProduct>("Product", productSchema)
