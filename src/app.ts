@@ -9,8 +9,8 @@ app.use(express.json({ limit: REQUEST_DATA_LIMIT }))
 
 
 
-import mainRouter from './routes/index.routes';
+import router from './routes/index.routes';
 
-app.use("/api/v1", mainRouter());
+app.use("/api/v1", router);
 
 export default app;

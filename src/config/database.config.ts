@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "../constants";
+import { Keys } from "./keys";
 
 /**
  * Connecting to the MongoDB database using Mongoose.
@@ -8,12 +9,10 @@ import { DB_NAME } from "../constants";
  */
 const connectDB = async () => {
     try {
-        // Extract the MongoDB connection URL from the environment variables.
-        const MONGODB_URI = process.env.MONGODB_URI;        
         // Attempt to connect to the database using Mongoose.
-        const response = await mongoose.connect(`${MONGODB_URI}/${DB_NAME}`)
+        const response = await mongoose.connect(`${Keys.database.url}/${DB_NAME}`)
         if (response.connection.readyState === 1) {
-            console.log(`✔️  MongoDB connected successfully | DB_NAME: ${response.connection.name} | HOST: ${response.connection.host} | MONGODB_URL: ${MONGODB_URI}`);
+            console.log(`✔️  MongoDB connected successfully | DB_NAME: ${response.connection.name} | HOST: ${response.connection.host} | MONGODB_URL: ${Keys.database.url}`);
         }
         return response;
     } catch (error) {

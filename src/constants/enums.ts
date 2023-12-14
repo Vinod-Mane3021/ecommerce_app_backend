@@ -1,7 +1,6 @@
 enum UserRoles {
-  Member = "ROLE MEMBER",
-  Merchant = "ROLE MERCHANT",
-  Admin = "ROLE ADMIN",
+  User = "User",
+  Admin = "Admin",
 }
 
 enum MerchantStatus {

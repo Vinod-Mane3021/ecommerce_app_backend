@@ -4,7 +4,20 @@ const createUser = (value: Record<string, string>) => {
     return UserModel.create(value);
 }
 
-export { createUser }
+const findUserByEmail = (email: string) => {
+    return UserModel.findOne({email})
+}
+
+const findUserByEmailOrMobileNumber = (email: string, mobileNumber: string) => {
+    return UserModel.findOne({
+        $or: [
+            { email: email },
+            { mobileNumber: mobileNumber }
+        ],
+    })
+}
+
+export { createUser, findUserByEmail, findUserByEmailOrMobileNumber }
 
 
 
