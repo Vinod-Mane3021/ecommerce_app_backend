@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 import asyncHandler from "../utils/asyncHandler";
 import ApiResponse from "../utils/ApiResponse";
 import HttpStatusCode from "../constants/HttpStatusCodes";
@@ -8,7 +8,7 @@ import { Keys } from "../config/keys";
 import { findUserById } from "../services/user.service";
 
 export interface authRequest extends Request {
-    userId: string
+    userId: Types.ObjectId
 }
 
 interface JwtPayload {
@@ -27,14 +27,14 @@ const authenticate = asyncHandler(
         const id = decoded.id;
         const email = decoded.email
 
-        console.log("decoded : ", decoded)
+        // console.log("decoded : ", decoded)
 
         const user = await findUserById(id)
         if(!user) {
             return new ApiResponse(HttpStatusCode.UNAUTHORIZED, "UNAUTHORIZED", "user not authenticated").sendResponse(res)
         }
 
-        req.userId = id;
+        req.userId = user._id;;
 
         next()
     }

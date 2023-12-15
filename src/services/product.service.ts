@@ -1,3 +1,4 @@
+import { Schema } from "mongoose";
 import { ProductModel } from "../models/product.model";
 
 const filterProducts = (
@@ -11,4 +12,8 @@ const filterProducts = (
             .limit(pageSize)
 }
 
-export { filterProducts }
+const findProductById = (id: Schema.Types.ObjectId) => {
+    return ProductModel.findById(id);
+}
+
+export { filterProducts, findProductById }

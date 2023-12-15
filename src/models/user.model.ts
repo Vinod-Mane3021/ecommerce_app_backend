@@ -10,7 +10,7 @@ import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import { Keys } from "../config/keys";
 
-interface IUser extends Document{
+export interface IUser extends Document{
   firstName: string,
   lastName: string,
   email: string,
