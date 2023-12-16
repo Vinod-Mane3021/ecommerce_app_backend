@@ -1,6 +1,6 @@
-# ToDo App - Backend
+# ecommerce_app_backend - Backend
 
-The backend of the todo_app is built using Node.js and Express.js, with MongoDB as the database, enabling individual user task management through CRUD operations. It incorporates user authentication for personalized task tracking.
+The backend of the ecommerce app is built using Node.js and Express.js, with MongoDB as the database.
 
 ## Features
 
