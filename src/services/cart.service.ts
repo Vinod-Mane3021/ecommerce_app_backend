@@ -4,16 +4,10 @@ import { IProduct } from "../models/product.model";
 import { Schema } from "mongoose";
 import { Types } from "mongoose";
 
-export const findUserCartItemsByUserId = (userId: Types.ObjectId) => {
+export const findCartItemsByUserId = (userId: Types.ObjectId) => {
     return CartModel.findOne({
         userId: userId
     })
-}
-
-export const findCartProductByProductId = (
-
-) => {
-
 }
 
 export const createNewUserCart = (
@@ -41,7 +35,14 @@ export const updateProductQuantity = (
     cartProduct: ICartProducts,
     quantity: number
 ) => {
-    cartProduct.quantity += quantity
+    cartProduct.quantity += quantity;
+}
+
+export const removeCartQuantity = (
+    cartProduct: ICartProducts,
+    quantity: number
+) => {
+    cartProduct.quantity -= quantity;
 }
 
 export const updateCart = () => {

@@ -7,6 +7,12 @@ import { UserModel } from "../models/user.model";
 import jwt from 'jsonwebtoken'
 import { Keys } from "../config/keys";
 
+/**
+ * Handles the registration of a new user.
+ * @param req - Express Request object
+ * @param res - Express Response object
+ * @returns {ApiResponse} - JSON response indicating the success or failure of the registration
+ */
 const register = asyncHandler(async (req: Request, res: Response) => {
   // Extracting user data from the request body
   const { firstName, lastName, email, mobileNumber, password } = req.body;
@@ -20,7 +26,9 @@ const register = asyncHandler(async (req: Request, res: Response) => {
     ).sendResponse(res);
   }
 
+  // checking if the user already
   const existingUser = await findUserByEmail(email);
+  // validating existing user
   if (existingUser) {
     return new ApiResponse(
       HttpStatusCode.BAD_REQUEST,
@@ -29,6 +37,7 @@ const register = asyncHandler(async (req: Request, res: Response) => {
     ).sendResponse(res);
   }
 
+  // creating new user
   const createdUser = await createUser({
     firstName: firstName,
     lastName: lastName,
@@ -51,37 +60,31 @@ const register = asyncHandler(async (req: Request, res: Response) => {
   ).sendResponse(res);
 });
 
+/**
+ * Handles the user log-in
+ * @param req - Express Request object
+ * @param res - Express Response object
+ * @returns {ApiResponse} - JSON response indicating the success or failure of the registration
+ */
 const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const {email, mobileNumber, password} = req.body;
 
     console.log("email :", email)
-
+    
     if((!email || !password) && (!mobileNumber || !password)) {
-      return new ApiResponse(
-        HttpStatusCode.BAD_REQUEST,
-        "FAILED",
-        "All felids are required"
-      ).sendResponse(res);
+      return new ApiResponse(HttpStatusCode.BAD_REQUEST, "FAILED", "All felids are required").sendResponse(res);
     }
 
     const user = await findUserByEmailOrMobileNumber(email, mobileNumber);
 
     if(!user) {
-      return new ApiResponse(
-        HttpStatusCode.UNAUTHORIZED,
-        "UNAUTHORIZED",
-        "No user found for this email address"
-      ).sendResponse(res);
+      return new ApiResponse(HttpStatusCode.UNAUTHORIZED, "UNAUTHORIZED", "No user found for this email address").sendResponse(res);
     }
 
     const isPasswordCorrect = await user.isPasswordCorrect(password);
     if(!isPasswordCorrect) {
-      return new ApiResponse(
-        HttpStatusCode.BAD_REQUEST,
-        "BAD_REQUEST",
-        "Password Incorrect"
-      ).sendResponse(res);
+      return new ApiResponse(HttpStatusCode.BAD_REQUEST, "BAD_REQUEST","Password Incorrect").sendResponse(res);
     }
 
     // generate token
@@ -91,11 +94,7 @@ const login = asyncHandler(
     })
 
     if(!token) {
-      return new ApiResponse(
-        HttpStatusCode.INTERNAL_SERVER_ERROR,
-        "INTERNAL_SERVER_ERROR",
-        "Token not generated"
-      ).sendResponse(res);
+      return new ApiResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR","Token not generated").sendResponse(res);
     }
 
     setTimeout(() => {
