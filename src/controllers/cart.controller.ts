@@ -12,8 +12,7 @@ import { Schema } from "mongoose";
  */
 export const addToCart = asyncHandler(
     /**
-     * 
-     * @param req - request from client containing userId, quantity, productId
+     * @param req - request from client containing quantity, productId
      * @param res - sending response to client
      * @returns  - Response with SUCCESS status or ERROR
      */
@@ -81,39 +80,61 @@ export const addToCart = asyncHandler(
     }
 )
 
+/**
+ * Controller to remove product from cart
+ */
 export const removeFromCart = asyncHandler(
+    /**
+     * @param req - request from client containing quantity, productId
+     * @param res - sending response to client
+     * @returns  - Response with SUCCESS status or ERROR
+     */
     async (req: authRequest, res: Response) => {
+        // extracting from auth middleware
         const userId = req.userId;
-        const { productId } = req.body
-
+        // extracting from req
+        const { quantity, productId } = req.body
+        // finding product from database by productId
         const product = await findProductById(productId);
+        // validating product
         if(!product) {
             return new ApiResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "product not found").sendResponse(res)
         }
-
+        // finding cart by userId
         const cart = await findCartItemsByUserId(userId);
+        // validating cart
         if(!cart) {
             return new ApiResponse(HttpStatusCode.BAD_REQUEST, "BAD_REQUEST", "cart not found").sendResponse(res);
         }
 
+        // finding product from cart
         const cartProduct = cart.products.find(product => product.productId == productId);
 
+        // validating cart product
         if(!cartProduct) {
             return new ApiResponse(HttpStatusCode.NOT_FOUND, "NOT_FOUND", "product not found in cart").sendResponse(res);
         }
 
+        /**
+         * checking if the cart product quantity is less then 2
+         * if yes, removing that product from cart
+         */
         if(cartProduct.quantity  < 2) {
             cart.products.filter(product => product.productId != productId)
         }
+        
+        // decreasing the cart quantity from cart
+        await removeCartQuantity(cartProduct, quantity);
 
-        await removeCartQuantity(cartProduct, 1);
-
+        // saving cart
         const savedCart = cart.save();
 
+        // validating saved cart
         if(!savedCart) {
             return new ApiResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "Product not added to cart").sendResponse(res);
         }
 
+        // returning and sending 'SUCCESS' response when product is successfully remove from cart
         return new ApiResponse(HttpStatusCode.OK, "SUCCESS", "Product removed to cart successfully").sendResponse(res)
     }
 )

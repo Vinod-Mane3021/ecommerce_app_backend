@@ -1,6 +1,11 @@
 import { connectDB } from "./config/database.config";
 import app from "./app";
 import { Keys } from "./config/keys";
+import dotenv from 'dotenv'
+
+dotenv.config({
+    path: './.env'
+})
 
 
 connectDB()

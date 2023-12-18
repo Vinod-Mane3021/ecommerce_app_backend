@@ -13,7 +13,7 @@ import { Keys } from "../config/keys";
  * @param res - Express Response object
  * @returns {ApiResponse} - JSON response indicating the success or failure of the registration
  */
-const register = asyncHandler(async (req: Request, res: Response) => {
+export const register = asyncHandler(async (req: Request, res: Response) => {
   // Extracting user data from the request body
   const { firstName, lastName, email, mobileNumber, password } = req.body;
 
@@ -66,7 +66,7 @@ const register = asyncHandler(async (req: Request, res: Response) => {
  * @param res - Express Response object
  * @returns {ApiResponse} - JSON response indicating the success or failure of the registration
  */
-const login = asyncHandler(
+export const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const {email, mobileNumber, password} = req.body;
 
@@ -114,6 +114,7 @@ const login = asyncHandler(
 
     // set the cookie in client
     res.cookie('token', user.token, { domain: 'localhost', path: '/' })
+
     return new ApiResponse(
       HttpStatusCode.OK,
       "SUCCESS",
@@ -128,9 +129,3 @@ const login = asyncHandler(
 
 });
 
-
-
-
-
-
-export { register, login };
