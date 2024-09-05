@@ -9,4 +9,8 @@ export const Keys = {
         secret: process.env.JWT_SECRET,
         tokenLife: process.env.TOKEN_EXPIRY
     },
+    stripe: {
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        secretKey: process.env.STRIPE_SECRET_KEY,
+    }
 };

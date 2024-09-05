@@ -21,9 +21,9 @@ export const filterProducts = (
 
 /**
  * Finds a product by its id
- * @param {Schema.Types.ObjectId} id - The unique identifier of the product.
+ * @param {string} id - The unique identifier of the product.
  * @returns {Promise<null|Object>} - A promise that resolves to the found product or null if not found.
  */
-export const findProductById = (id: Schema.Types.ObjectId) => {
+export const findProductById = (id: string) => {
     return ProductModel.findById(id);
 }

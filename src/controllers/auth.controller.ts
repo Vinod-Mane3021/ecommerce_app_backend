@@ -6,6 +6,7 @@ import { createUser, findUserByEmail, findUserByEmailOrMobileNumber } from "../s
 import { UserModel } from "../models/user.model";
 import jwt from 'jsonwebtoken'
 import { Keys } from "../config/keys";
+import { userSchema } from "../zod/userValidation";
 
 /**
  * Handles the registration of a new user.
@@ -17,12 +18,19 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   // Extracting user data from the request body
   const { firstName, lastName, email, mobileNumber, password } = req.body;
 
-  // Validating required fields
-  if (!firstName || !lastName || !email || !mobileNumber || !password) {
+  const validation = userSchema.safeParse({
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    mobileNumber: mobileNumber,
+    password: password
+  })
+
+  if(!validation.success) { 
     return new ApiResponse(
       HttpStatusCode.BAD_REQUEST,
-      "FAILED",
-      "All felids are required"
+      "INVALID_INPUTS",
+      "All felids are required",
     ).sendResponse(res);
   }
 
@@ -32,7 +40,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   if (existingUser) {
     return new ApiResponse(
       HttpStatusCode.BAD_REQUEST,
-      "FAILED",
+      "USER_EXIST",
       "user already exist"
     ).sendResponse(res);
   }
@@ -49,7 +57,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
   // Sending a success response with the created user data
   return new ApiResponse(
     HttpStatusCode.CREATED,
-    "CREATED",
+    "USER_CREATED",
     "User Successfully registered",
     {
       firstName: firstName,

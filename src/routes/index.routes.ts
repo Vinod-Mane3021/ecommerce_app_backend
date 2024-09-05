@@ -6,7 +6,7 @@ import cartRouter from './cart.routes';
 const router = Router()
 
 router.use('/user', authRouter);
-router.use('/products', productRouter)
+router.use('/product', productRouter)
 router.use('/cart', cartRouter)
 
 

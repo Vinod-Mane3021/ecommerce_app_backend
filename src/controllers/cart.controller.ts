@@ -83,6 +83,7 @@ export const addToCart = asyncHandler(
 /**
  * Controller to remove product from cart
  */
+
 export const removeFromCart = asyncHandler(
     /**
      * @param req - request from client containing quantity, productId

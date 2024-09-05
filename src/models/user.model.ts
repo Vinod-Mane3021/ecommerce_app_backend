@@ -57,23 +57,23 @@ var userSchema = new Schema<IUser>(
  * @param next - next function
  */
 userSchema.pre("save", async function (next: NextFunction) {
-  try {
-    if (!this.isModified("password")) {
-      next();
+    try {
+        if (!this.isModified("password")) {
+          next();
+        }
+        // hash the password
+        const salt = await bcrypt.genSaltSync(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (error) {
+        console.error(`Failed to hash password: ${error.message}`);
+        // Throw an ApiResponse if password hashing fails
+        throw new ApiResponse(
+          HttpStatusCode.INTERNAL_SERVER_ERROR,
+          "INTERNAL_SERVER_ERROR",
+          `Failed to hash password : ${error.message}`
+        );
     }
-    // hash the password
-    const salt = await bcrypt.genSaltSync(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    console.error(`Failed to hash password: ${error.message}`);
-    // Throw an ApiResponse if password hashing fails
-    throw new ApiResponse(
-      HttpStatusCode.INTERNAL_SERVER_ERROR,
-      "INTERNAL_SERVER_ERROR",
-      `Failed to hash password : ${error.message}`
-    );
-  }
 });
 
 /**
